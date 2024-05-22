@@ -1,14 +1,19 @@
 import { create } from "zustand";
 
 const useUserStore = create((set) => ({
-  user: {},
+  user: null,
+  error: null,
+  setError: (error) => set({ error }),
   setUser: (user) =>
     user
       ? fetch(`https://api.github.com/users/${user}`)
-          .then((res) => res.json())
+          .then((res) => {
+            if (res.ok) return res.json();
+            throw new Error("User not found");
+          })
           .then((data) => set(() => ({ user: data, loading: false })))
-          .catch(() => set({ user: {}, loading: false }))
-      : set({ user: {}, loading: false }),
+          .catch((e) => set({ user: null, loading: false, error: e }))
+      : set({ user: null, loading: false }),
   loading: false,
   setLoading: (loading) => set({ loading }),
 }));
