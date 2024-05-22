@@ -1,49 +1,42 @@
+import "./App.css";
 import { create } from "zustand";
-import Loading from "./components/Loader/Loading";
-import { useEffect } from "react";
 import axios from "axios";
+import { useState } from "react";
+import GithubUser from "./components/GithubUser/GithubUser";
 
-const useStore = create((set, get) => ({
+export const useUserStore = create((set) => ({
   user: {},
   setUser: (user) => set({ user }),
-  loading: false,
-  setLoading: (loading) => set({ loading }),
 }));
 
 function App() {
-  const user = useStore((state) => state.user);
-  const setUser = useStore((state) => state.setUser);
-  const setLoading = useStore((state) => state.setLoading);
-  const loading = useStore((state) => state.loading);
+  const setUser = useUserStore((state) => state.setUser);
+  const [search, setSearch] = useState("");
 
-  useEffect(() => {
+  const handleInputChange = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const handleGetUser = () => {
     axios
-      .get("https://api.github.com/users/mikaelhadler")
+      .get(`https://api.github.com/users/${search}`)
       .then((res) => {
         setUser(res.data);
-        setLoading(false);
         console.table(res.data);
       })
-      .catch((e) => {
-        setLoading(false);
+      .catch((err) => {
         setUser({});
+        console.log(err);
       });
-  }, []);
+  };
 
   return (
     <div>
-      {loading ? (
-        <Loading />
-      ) : (
-        <div>
-          <div>
-            <h1>heloo {user.name}</h1>
-          </div>
-          <div>
-            <img src={user.avatar_url} alt="" />
-          </div>
-        </div>
-      )}
+      <input type="text" onChange={handleInputChange} value={search} />
+      <button onClick={handleGetUser}>Search</button>
+      <div>
+        <GithubUser />
+      </div>
     </div>
   );
 }
