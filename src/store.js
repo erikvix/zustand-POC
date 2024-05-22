@@ -4,7 +4,8 @@ const useUserStore = create((set) => ({
   user: null,
   error: null,
   setError: (error) => set({ error }),
-  setUser: (user) =>
+  setUser: (user) => {
+    set((state) => ({ ...state, loading: true, error: null }));
     user
       ? fetch(`https://api.github.com/users/${user}`)
           .then((res) => {
@@ -13,7 +14,8 @@ const useUserStore = create((set) => ({
           })
           .then((data) => set(() => ({ user: data, loading: false })))
           .catch((e) => set({ user: null, loading: false, error: e }))
-      : set({ user: null, loading: false }),
+      : set({ user: null, loading: false });
+  },
   loading: false,
   setLoading: (loading) => set({ loading }),
 }));
