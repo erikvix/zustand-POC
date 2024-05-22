@@ -33,10 +33,8 @@ function App() {
         placeholder="Search for a Github user..."
         value={search} />
       <button onClick={handleGetUser} disabled={!search}>
-        
         {loading ? 'Loading...' : 'Search'}
-        </button>
-      
+      </button>
       {Object.keys(user).length ? <GithubUser /> : null}
     </div>
     </>
