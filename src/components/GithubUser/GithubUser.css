@@ -1,0 +1,26 @@
+.user-profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    max-width: 390px;
+    padding: 40px 16px;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    margin-top: 20px;
+}
+
+.user-profile__title h1 {
+    font-size: 1.5em;
+    margin-bottom: 8px;
+}
+
+.user-profile__img img {
+    max-width: 200px;
+    margin-bottom: 10px;
+}
+.user-profile__details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

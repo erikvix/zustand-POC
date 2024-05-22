@@ -1,27 +1,29 @@
-import React from "react";
-import { useUserStore } from "../../App";
-
+import { useUserStore } from "../../store";
+import './GithubUser.css'
 export default function GithubUser() {
-  const user = useUserStore((state) => state.user);
+  const {name, login, avatar_url, bio, public_repos, followers, following} = useUserStore((state) => state.user);
 
   return (
-    <div>
-      {user ? (
+    <div className="user-profile">
+      <div className="user-profile__img">
+        <img src={avatar_url} alt={login} />
+      </div>
+      <div className="user-profile__title">
+        <h2>{name}</h2>
+        <h4>{bio}</h4>
+        <p>@{login}</p>
+      </div>  
+      <div className="user-profile__details">
         <div>
-          {user.name ? <h1>{user.name}</h1> : <h1>{user.login}</h1>}
-          <div>
-            <img src={user.avatar_url} alt={user.login} />
-          </div>
-          <div>
-            <h3>{user.bio}</h3>
-            <div>
-              <p>Public repositories {user.public_repos}</p>
-              <p>{user.followers}</p>
-              <p>{user.following}</p>
-            </div>
-          </div>
+          <strong>Public repositories</strong>: {public_repos}
         </div>
-      ) : null}
+        <div>
+          <strong>Followers</strong>: {followers}
+        </div>
+        <div>
+          <strong>Following</strong>: {following}
+        </div>
+      </div>
     </div>
   );
 }

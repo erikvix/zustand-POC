@@ -1,43 +1,45 @@
 import "./App.css";
-import { create } from "zustand";
-import axios from "axios";
+import { useUserStore } from "./store";
 import { useState } from "react";
 import GithubUser from "./components/GithubUser/GithubUser";
 
-export const useUserStore = create((set) => ({
-  user: {},
-  setUser: (user) => set({ user }),
-}));
-
 function App() {
+  const user = useUserStore((state) => state.user);
   const setUser = useUserStore((state) => state.setUser);
+  const loading = useUserStore((state) => state.loading);
+  const setLoading = useUserStore((state) => state.setLoading);
   const [search, setSearch] = useState("");
 
   const handleInputChange = (e) => {
+    if (!e.target.value) setUser(undefined);
     setSearch(e.target.value);
   };
 
   const handleGetUser = () => {
-    axios
-      .get(`https://api.github.com/users/${search}`)
-      .then((res) => {
-        setUser(res.data);
-        console.table(res.data);
-      })
-      .catch((err) => {
-        setUser({});
-        console.log(err);
-      });
+    setLoading(true);
+    setUser(search);
   };
 
   return (
-    <div>
-      <input type="text" onChange={handleInputChange} value={search} />
-      <button onClick={handleGetUser}>Search</button>
-      <div>
-        <GithubUser />
-      </div>
+    <>
+    <img src="/zustand.png" alt="zustand" width={400} height={200}/>
+    <div className="container">
+      <input 
+        type="text"
+        onChange={handleInputChange}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") handleGetUser()
+         }}
+        placeholder="Search for a Github user..."
+        value={search} />
+      <button onClick={handleGetUser} disabled={!search}>
+        
+        {loading ? 'Loading...' : 'Search'}
+        </button>
+      
+      {Object.keys(user).length ? <GithubUser /> : null}
     </div>
+    </>
   );
 }
 
