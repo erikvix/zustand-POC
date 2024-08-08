@@ -18,13 +18,6 @@ Você pode acessar o projeto neste link: https://zustand-jsvix.netlify.app
 - Gerenciamento de Estado com Zustand: Utiliza Zustand para gerenciar o estado das requisições e dados dos usuários.
 - Interface Moderna: Utiliza Tailwind CSS e Shadcn UI para uma interface limpa e moderna.
 
-## Tecnologias Utilizadas
-- Zustand: Biblioteca para gerenciamento de estado em React.
-- TypeScript: Linguagem de programação que adiciona tipagem estática ao JavaScript.
-- Shadcn UI: Biblioteca de componentes UI.
-- GitHub API: API RESTful do GitHub para busca de usuários.
-
-
 ## Clone o repositório:
 
 ```sh
